@@ -3,8 +3,8 @@ name: Deploy
 on:
   push:
     tags:
-      - 'v*'  # 匹配所有以 v 开头的 tag，如 v1.0.0
-  workflow_dispatch:  # 允许手动触发工作流
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -13,21 +13,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
       
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 9
-      
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Install Wrangler
-        run: pnpm i -g wrangler
 
       - name: Run Deploy Script
         run: pnpm dlx tsx scripts/deploy.ts
