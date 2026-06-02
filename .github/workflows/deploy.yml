@@ -25,7 +25,10 @@ jobs:
       
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
-
+      
+      - name: Install Wrangler
+        run: pnpm add -g wrangler
+      
       - name: Run Deploy Script
         run: pnpm dlx tsx scripts/deploy.ts
         env:
